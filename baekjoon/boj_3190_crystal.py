@@ -1,7 +1,7 @@
 from collections import deque
 
 map_N = int(input())
-# 좌표 입력은 1,1부터 들어온다.
+# 좌표 입력은 1,1부터 들어온다!
 apple_map = [[False] * (map_N+1) for _ in range(map_N+1)]
 snape_map = [[False] * (map_N+1) for _ in range(map_N+1)]
 move_info = dict()
