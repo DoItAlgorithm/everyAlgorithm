@@ -17,6 +17,7 @@ def is_prime(num):
         if num % i == 0:
             return False
     return True
+
 def count_fit_case(num_str_list):
     count = 0
     tmp_str_num = ''
@@ -33,8 +34,18 @@ def count_fit_case(num_str_list):
         if is_prime(int(tmp_str_num)):
             count += 1
 
+# split() 이용해서 간단화
+def count_fit_case2(num_str):
+    count = 0
+    token_list = num_str.split('0')
+    for token in token_list:
+        if token != '' and is_prime(int(token)):
+            count += 1
     return count
+
+
 def solution(v,k):
-    num_str_list = transfer(v, k)
-    answer = count_fit_case(num_str_list)
+    num_str = transfer(v, k)
+    answer = count_fit_case2(num_str)
     return answer
+
