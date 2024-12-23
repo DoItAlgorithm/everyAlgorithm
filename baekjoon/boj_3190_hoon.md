@@ -16,17 +16,12 @@ public class Main {
         }
     }
 
-    public static class Dir implements Comparable<Dir>{
+    public static class Dir{
         int time;
         char dir;
         public Dir(int time, char dir){
             this.time = time;
             this.dir = dir;
-        }
-
-        @Override
-        public int compareTo(Dir d) {
-            return this.time-d.time;
         }
     }
 
@@ -48,12 +43,12 @@ public class Main {
         }
 
         int l = Integer.valueOf(br.readLine());
-        PriorityQueue<Dir> priorityQueue = new PriorityQueue<>();
+        List<Dir> directions = new ArrayList<>();
         for(int i=0; i<l; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
             int x = Integer.valueOf(st.nextToken());
             char c = st.nextToken().charAt(0);
-            priorityQueue.offer(new Dir(x, c));
+            directions.add(new Dir(x, c));
         }
         int time = 0;
         int[] dx = {-1, 0, 1, 0};
@@ -61,6 +56,7 @@ public class Main {
         int x = 0;
         int y = 0;
         int curDir = 1;
+        int dirIdx = 0;
         visited[x][y]=true;
         queue.offer(new Pos(x, y));
         while(true){
@@ -72,30 +68,23 @@ public class Main {
             if(x<0 || x>=n || y<0 || y>=n || visited[x][y]){
                 break;
             }
+            visited[x][y] = true;
             if(graph[x][y]==1){
                 graph[x][y] = 0;
-                visited[x][y] = true;
             }
             else {
-                visited[x][y] = true;
                 Pos nowPos = queue.poll();
                 visited[nowPos.x][nowPos.y] = false;
             }
 
-            while (!priorityQueue.isEmpty()){
-                Dir nowDir = priorityQueue.peek();
-                if(nowDir.time==time){
-                    if(nowDir.dir=='L'){
-                        curDir = ((curDir-1)+4)%4;
-                    }
-                    else {
-                        curDir = ((curDir+1)+4)%4;
-                    }
-                    priorityQueue.poll();
+            if (dirIdx < directions.size() && directions.get(dirIdx).time == time) {
+                char turnDir = directions.get(dirIdx).dir;
+                if (turnDir == 'L') {
+                    curDir = (curDir - 1 + 4) % 4;
+                } else {
+                    curDir = (curDir + 1) % 4;
                 }
-                else{
-                    break;
-                }
+                dirIdx++;
             }
         }
         bw.write(String.valueOf(time));
